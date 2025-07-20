@@ -1,3 +1,5 @@
+"use client";
+
 import {
   SignInButton,
   SignUpButton,
@@ -5,15 +7,25 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Nav() {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) return null; // Prevent hydration mismatch
+
   return (
     <nav className="bg-white shadow">
       <header className="flex justify-between items-center p-4 max-w-7xl mx-auto h-16">
         {/* Left: Logo */}
         <div className="text-xl font-bold">
-          <a href="/home" className="flex items-center">
+          <Link href="/user/home" className="flex items-center">
             <Image
               src="/static/images/terminal.png"
               alt="Logo"
@@ -22,25 +34,34 @@ export default function Nav() {
               className="h-8 w-auto"
               priority
             />
-          </a>
+          </Link>
         </div>
 
         {/* Center: Navigation Links */}
-        <ul className="flex space-x-6">
+        <ul className="flex space-x-6 items-center">
           <li>
-            <a href="/home" className="text-gray-700 hover:text-blue-600">
+            <Link
+              href="/user/home"
+              className="text-gray-700 hover:text-blue-600"
+            >
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/about" className="text-gray-700 hover:text-blue-600">
+            <Link
+              href="/user/about"
+              className="text-gray-700 hover:text-blue-600"
+            >
               About
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/contact" className="text-gray-700 hover:text-blue-600">
+            <Link
+              href="/user/contact"
+              className="text-gray-700 hover:text-blue-600"
+            >
               Contact
-            </a>
+            </Link>
           </li>
         </ul>
 
@@ -57,8 +78,82 @@ export default function Nav() {
           <SignedIn>
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
+          {/* Admin Button - only for signed-in users */}
+          <SignedIn>
+            <Link
+              href="/admin/user"
+              className="text-white bg-blue-600 hover:bg-blue-700 rounded-md px-4 py-1.5 text-sm"
+            >
+              Admin
+            </Link>
+          </SignedIn>
         </div>
       </header>
     </nav>
   );
 }
+
+// import {
+//   SignInButton,
+//   SignUpButton,
+//   SignedIn,
+//   SignedOut,
+//   UserButton,
+// } from "@clerk/nextjs";
+// import Image from "next/image";
+
+// export default function Nav() {
+//   return (
+//     <nav className="bg-white shadow">
+//       <header className="flex justify-between items-center p-4 max-w-7xl mx-auto h-16">
+//         {/* Left: Logo */}
+//         <div className="text-xl font-bold">
+//           <a href="/home" className="flex items-center">
+//             <Image
+//               src="/static/images/terminal.png"
+//               alt="Logo"
+//               width={32}
+//               height={32}
+//               className="h-8 w-auto"
+//               priority
+//             />
+//           </a>
+//         </div>
+
+//         {/* Center: Navigation Links */}
+//         <ul className="flex space-x-6">
+//           <li>
+//             <a href="/home" className="text-gray-700 hover:text-blue-600">
+//               Home
+//             </a>
+//           </li>
+//           <li>
+//             <a href="/about" className="text-gray-700 hover:text-blue-600">
+//               About
+//             </a>
+//           </li>
+//           <li>
+//             <a href="/contact" className="text-gray-700 hover:text-blue-600">
+//               Contact
+//             </a>
+//           </li>
+//         </ul>
+
+//         {/* Right: Auth Buttons */}
+//         <div className="flex items-center gap-4">
+//           <SignedOut>
+//             <SignInButton />
+//             <SignUpButton>
+//               <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
+//                 Sign Up
+//               </button>
+//             </SignUpButton>
+//           </SignedOut>
+//           <SignedIn>
+//             <UserButton afterSignOutUrl="/" />
+//           </SignedIn>
+//         </div>
+//       </header>
+//     </nav>
+//   );
+// }
