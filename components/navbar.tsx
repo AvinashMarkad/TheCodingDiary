@@ -25,7 +25,7 @@ export default function Nav() {
       <header className="flex justify-between items-center p-4 max-w-7xl mx-auto h-16">
         {/* Left: Logo */}
         <div className="text-xl font-bold">
-          <Link href="/user/home" className="flex items-center">
+          <Link href="/home" className="flex items-center">
             <Image
               src="/static/images/terminal.png"
               alt="Logo"
@@ -63,6 +63,14 @@ export default function Nav() {
               Contact
             </Link>
           </li>
+          <li>
+            <Link
+              href="/admin/home"
+              className="text-gray-700 hover:text-blue-600"
+            >
+              Admin
+            </Link>
+          </li>
         </ul>
 
         {/* Right: Auth Buttons */}
@@ -77,15 +85,6 @@ export default function Nav() {
           </SignedOut>
           <SignedIn>
             <UserButton afterSignOutUrl="/" />
-          </SignedIn>
-          {/* Admin Button - only for signed-in users */}
-          <SignedIn>
-            <Link
-              href="/admin/user"
-              className="text-white bg-blue-600 hover:bg-blue-700 rounded-md px-4 py-1.5 text-sm"
-            >
-              Admin
-            </Link>
           </SignedIn>
         </div>
       </header>
